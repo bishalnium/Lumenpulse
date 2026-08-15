@@ -1,0 +1,28 @@
+{
+  "name": "lumenpulse",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LumenPulse — Stellar Vault & Feedback DAO (Levels 1, 2 & 3)",
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "test:contract": "cargo test --manifest-path contracts/feedback_vault/Cargo.toml",
+    "build:contract": "cargo build --manifest-path contracts/feedback_vault/Cargo.toml --target wasm32-unknown-unknown --release",
+    "deploy:testnet": "node scripts/deploy.js"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "^13.3.0"
+  },
+  "keywords": [
+    "stellar",
+    "soroban",
+    "smart-contracts",
+    "dao",
+    "freighter",
+    "testnet",
+    "dapp"
+  ],
+  "author": "",
+  "license": "MIT"
+}

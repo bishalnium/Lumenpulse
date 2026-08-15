@@ -1,0 +1,6 @@
+node_modules
+frontend/node_modules
+frontend/dist
+contracts/feedback_vault/target
+.DS_Store
+*.log
