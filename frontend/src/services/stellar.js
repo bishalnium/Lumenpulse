@@ -21,8 +21,8 @@ export const EXPLORER_BASE = 'https://stellar.expert/explorer/testnet';
 export const horizonServer = new Horizon.Server(HORIZON_URL);
 export const rpcServer = new SorobanRpc.Server(SOROBAN_RPC_URL);
 
-// Default Deployed Testnet Contract ID (can be updated via UI or env)
-export const DEFAULT_CONTRACT_ID = 'CBWRFNDJ55C6WJ3N4R2X3PGLJ6P26L7A7XG7K6Y27Z3N5H8L3V8B9K2M';
+// Real Live Deployed Testnet Contract ID
+export const DEFAULT_CONTRACT_ID = 'CDS7U2RNC7JGQ3LQ72ALHWCU5AWVRQDPBS7QTBIPH4QUD6QTQJO2BBCZ';
 
 /**
  * Fetch native XLM balance and token balances for an account

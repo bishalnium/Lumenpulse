@@ -151,8 +151,10 @@ cargo build --target wasm32-unknown-unknown --release
 
 * **Network**: Stellar Testnet
 * **Contract Name**: `FeedbackVaultContract`
-* **Default Deployed Contract ID**: `CBWRFNDJ55C6WJ3N4R2X3PGLJ6P26L7A7XG7K6Y27Z3N5H8L3V8B9K2M`
-* **Explorer Link**: [Stellar.Expert Testnet Contract](https://stellar.expert/explorer/testnet/contract/CBWRFNDJ55C6WJ3N4R2X3PGLJ6P26L7A7XG7K6Y27Z3N5H8L3V8B9K2M)
+* **Live Deployed Contract ID**: [`CDS7U2RNC7JGQ3LQ72ALHWCU5AWVRQDPBS7QTBIPH4QUD6QTQJO2BBCZ`](https://stellar.expert/explorer/testnet/contract/CDS7U2RNC7JGQ3LQ72ALHWCU5AWVRQDPBS7QTBIPH4QUD6QTQJO2BBCZ)
+* **WASM Hash**: `4dda959bb5616a427197a638090539de0a90561372778f75e2f5cfb368dea2d4`
+* **Instantiation Tx**: [`8de2fc667327e4e82854d4770117ae32178bed6a2133fbf20ee9b0d09711673d`](https://stellar.expert/explorer/testnet/tx/8de2fc667327e4e82854d4770117ae32178bed6a2133fbf20ee9b0d09711673d)
+* **Explorer Link**: [https://stellar.expert/explorer/testnet/contract/CDS7U2RNC7JGQ3LQ72ALHWCU5AWVRQDPBS7QTBIPH4QUD6QTQJO2BBCZ](https://stellar.expert/explorer/testnet/contract/CDS7U2RNC7JGQ3LQ72ALHWCU5AWVRQDPBS7QTBIPH4QUD6QTQJO2BBCZ)
 * **Horizon RPC Endpoint**: `https://horizon-testnet.stellar.org`
 * **Soroban RPC Endpoint**: `https://soroban-testnet.stellar.org`
 
