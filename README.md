@@ -1,133 +1,136 @@
 # ⚡ LumenPulse — Decentralized Feedback DAO & Tipping Vault Protocol
 
-[![Stellar Testnet](https://img.shields.io/badge/Network-Stellar_Testnet-00e5ff?style=for-the-badge&logo=stellar)](https://stellar.expert/explorer/testnet)
-[![Soroban v22](https://img.shields.io/badge/Smart_Contracts-Soroban_v22-7c4dff?style=for-the-badge)](https://soroban.stellar.org)
+[![Live Production App](https://img.shields.io/badge/Live_App-lumenpulse.netlify.app-00e5ff?style=for-the-badge&logo=netlify)](https://lumenpulse.netlify.app/)
+[![YouTube Video Demo](https://img.shields.io/badge/YouTube-Video_Walkthrough-ff0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=ZRX6abfxqLg)
+[![Stellar Testnet](https://img.shields.io/badge/Network-Stellar_Testnet-7c4dff?style=for-the-badge&logo=stellar)](https://stellar.expert/explorer/testnet/contract/CCQVCDQ6H5O5PS6XN5YJSF7FNLU2SDZHNF5XEI4W7D3VSIURB364QHAE)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-bishalnium%2FLumenpulse-181717?style=for-the-badge&logo=github)](https://github.com/bishalnium/Lumenpulse)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00e676?style=for-the-badge)](LICENSE)
 
-> **LumenPulse** is a decentralized governance feedback and community tipping protocol deployed on **Stellar Testnet** using **Soroban WASM smart contracts**. It enables verifiable, tamper-proof user reviews and micro-tipping for Stellar dApps, builders, and ecosystem protocols wrapped in a cosmic glassmorphism user interface.
+> **LumenPulse** is a decentralized governance feedback, on-chain reputation, and community micro-tipping protocol deployed on **Stellar Testnet** using **Soroban Rust WASM smart contracts**. It empowers Web3 users to submit immutable reviews with star ratings (1–5 stars), engage in Reddit-style discussion threads, search feedback by Stellar wallet address, and tip authors directly with Testnet XLM in a sleek cosmic glassmorphism interface.
 
 ---
 
-## 📋 Smart Contract & Deployment Reference
+## 📋 Quick Project Links & On-Chain Reference
 
-| Parameter | On-Chain Value / Link |
+| Resource / Parameter | Details / Link |
 | :--- | :--- |
-| **Network** | **Stellar Testnet (Protocol 22 / Soroban v22)** |
-| **Contract Name** | `FeedbackVault` |
-| **Primary Deployed Contract ID** | [`CCQVCDQ6H5O5PS6XN5YJSF7FNLU2SDZHNF5XEI4W7D3VSIURB364QHAE`](https://stellar.expert/explorer/testnet/contract/CCQVCDQ6H5O5PS6XN5YJSF7FNLU2SDZHNF5XEI4W7D3VSIURB364QHAE) |
-| **WASM Bytecode Hash** | `4dda959bb5616a427197a638090539de0a90561372778f75e2f5cfb368dea2d4` |
-| **WASM Size** | `10,842 bytes` |
-| **Contract Deployment Tx** | [`215efecb8f7ba29509936c2b52521f0fe6bcdd332a95185203ae52709c3ca9ba`](https://stellar.expert/explorer/testnet/tx/215efecb8f7ba29509936c2b52521f0fe6bcdd332a95185203ae52709c3ca9ba) |
-| **Verified On-Chain Feedback #1 Tx** | [`e37efd1d4b4c4eec8b9f94804c3c55c7c998291ef72cb8b0840ec89f2d4de026`](https://stellar.expert/explorer/testnet/tx/e37efd1d4b4c4eec8b9f94804c3c55c7c998291ef72cb8b0840ec89f2d4de026) |
-| **Deployer Public Key** | `GAW727V4MUPNUGW4RILTR3B5TX7T3LGYLFXMZXA53A26JOD4WCVJ3L7C` |
-| **Horizon RPC Endpoint** | `https://horizon-testnet.stellar.org` |
-| **Soroban RPC Endpoint** | `https://soroban-testnet.stellar.org` |
-| **Unit Test Coverage** | **4 / 4 Passing Unit Tests (`cargo test`)** |
+| **🌐 Live Deployed Application** | [**https://lumenpulse.netlify.app/**](https://lumenpulse.netlify.app/) |
+| **🎥 Video Demonstration Walkthrough** | [**YouTube: LumenPulse Protocol Overview**](https://www.youtube.com/watch?v=ZRX6abfxqLg) |
+| **📦 GitHub Repository** | [**github.com/bishalnium/Lumenpulse**](https://github.com/bishalnium/Lumenpulse) |
+| **⛓️ Network** | **Stellar Testnet (Protocol 22 / Soroban v22)** |
+| **📜 Contract Name** | `FeedbackVault` |
+| **🔑 Deployed Contract ID** | [`CCQVCDQ6H5O5PS6XN5YJSF7FNLU2SDZHNF5XEI4W7D3VSIURB364QHAE`](https://stellar.expert/explorer/testnet/contract/CCQVCDQ6H5O5PS6XN5YJSF7FNLU2SDZHNF5XEI4W7D3VSIURB364QHAE) |
+| **📦 WASM Bytecode Hash** | `4dda959bb5616a427197a638090539de0a90561372778f75e2f5cfb368dea2d4` |
+| **📏 WASM Binary Size** | `10,842 bytes` (Highly optimized) |
+| **🚀 Contract Deployment Transaction** | [`215efecb8f7ba29509936c2b52521f0fe6bcdd332a95185203ae52709c3ca9ba`](https://stellar.expert/explorer/testnet/tx/215efecb8f7ba29509936c2b52521f0fe6bcdd332a95185203ae52709c3ca9ba) |
+| **⭐ Verified On-Chain Feedback Tx** | [`e37efd1d4b4c4eec8b9f94804c3c55c7c998291ef72cb8b0840ec89f2d4de026`](https://stellar.expert/explorer/testnet/tx/e37efd1d4b4c4eec8b9f94804c3c55c7c998291ef72cb8b0840ec89f2d4de026) |
+| **📡 Horizon RPC Endpoint** | `https://horizon-testnet.stellar.org` |
+| **⚡ Soroban RPC Endpoint** | `https://soroban-testnet.stellar.org` |
+| **🧪 Unit Test Coverage** | **4 / 4 Passing Unit Tests (`cargo test`)** |
 
 ---
 
-## 💡 Why LumenPulse? (The Problem & Solution)
+## 💡 Why LumenPulse? (Problem & Solution)
 
 ### The Problem in Web3 Governance & Reviews
-Traditional review and feedback systems are centralized, vulnerable to censorship, and plagued by sybil bot spam. Users lack incentives to provide honest, constructive reviews, and dApp creators have no verifiable reputation metrics.
+Traditional review systems are centralized, vulnerable to censorship, and plagued by sybil bot spam. Reviewers have no financial incentive to provide high-quality, constructive feedback, and protocols have no cryptographically verifiable reputation metrics.
 
 ### The LumenPulse Solution
-LumenPulse creates an immutable, incentivized on-chain review layer on Stellar:
-* **Tamper-Proof On-Chain Feedback:** Reviews, ratings (1–5 stars), and category tags are recorded directly in Soroban persistent storage.
-* **Direct Community Tipping:** Protocols and community members can directly tip constructive reviews with Testnet XLM.
-* **Aggregated Protocol Analytics:** Smart contracts calculate real-time protocol reputation metrics (average rating, total submissions, total tips).
-* **Instant Settlement & Low Fees:** High-speed 3–5s finality and sub-cent fees powered by Stellar.
+LumenPulse creates an immutable, incentivized review and tipping layer on Stellar:
+1. **Tamper-Proof Feedback:** All reviews, star ratings (1–5 stars), and category taxonomy are stored directly in Soroban persistent storage with automatic TTL ledger extensions.
+2. **Decentralized Micro-Tipping:** Community members and protocols can directly tip constructive reviews with variable amounts of Testnet XLM (`5`, `10`, `25`, `50` XLM).
+3. **Universal On-Chain Querying:** Anyone can search feedback by Stellar wallet address (`GDON...`), post number, or keywords in real-time.
+4. **Live Event Feeds & Compact Discussions:** Emits Soroban contract events (`fb_new`, `fb_tip`) streamed live with Reddit-style compact discussion threads.
+5. **Instant Settlement & Low Fees:** High-speed ~3.5s finality and negligible base fees (0.00001 XLM) powered by Stellar.
 
 ---
 
 ## 🏛️ System Architecture
 
 ```text
-[ User / Reviewer / Protocol ] ──> [ Freighter / Demo Wallet ]
-               │
-               ▼
-   [ React + Vite Cosmic UI ] 
-               │
-               ├───> [ Stellar Horizon Testnet ]  (Native XLM Payments & Balance Queries)
-               ├───> [ Stellar Friendbot Faucet ] (1-Click Instant +10,000 XLM Funding)
-               └───> [ Soroban RPC Node ]         (Smart Contract WASM Execution & Events)
-                           │
-                           ▼
-             [ FeedbackVault Smart Contract ]
-               ├── send_feedback  (Submit On-Chain Rating & Review)
-               ├── tip_feedback   (Transfer Micro-Tipping to Reviewer)
-               ├── fetch_feedback (Read Specific Review Details)
-               └── get_vault_stats(Aggregated Protocol Stats)
+               ┌────────────────────────────────────────────────────────┐
+               │              LumenPulse Frontend (React + Vite)        │
+               │   • Cosmic Glassmorphism UI   • Real-Time RPC Query    │
+               │   • Star Rating Selector      • Universal Search       │
+               └───────────────┬────────────────────────┬───────────────┘
+                               │                        │
+                    Wallet Auth & Signing       RPC & Horizon Queries
+                               │                        │
+               ┌───────────────▼────────┐      ┌────────▼────────────────┐
+               │ Freighter / Demo Key   │      │ Stellar Testnet Horizon │
+               │ • Freighter API v3     │      │ • Account Balances      │
+               │ • 1-Click Friendbot    │      │ • Native XLM Transfers  │
+               └───────────────┬────────┘      └─────────────────────────┘
+                               │
+                               ▼
+               ┌────────────────────────────────────────────────────────┐
+               │             Soroban RPC (Protocol 22 Node)             │
+               │   • simulateTransaction    • sendTransaction           │
+               │   • getLatestLedger        • getEvents Polling         │
+               └───────────────┬────────────────────────────────────────┘
+                               │
+                               ▼
+               ┌────────────────────────────────────────────────────────┐
+               │        FeedbackVault Soroban Smart Contract (Rust)     │
+               │   • send_feedback(sender, msg, cat) -> u64             │
+               │   • fetch_feedback(id) -> Feedback                     │
+               │   • tip_feedback(tipper, id, amount)                   │
+               │   • get_vault_stats() -> VaultStats                    │
+               │   • get_feedback_count() -> u64                        │
+               │   • Events: fb_new, fb_tip                             │
+               └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## ✨ Key Features
 
-1. **Decentralized Feedback & Rating Smart Contract (`FeedbackVault`)**
-   * Rust Soroban contract with persistent storage and automatic 30-day TTL ledger extensions.
-   * Categorized feedback taxonomy (`general`, `bug`, `feature`, `ui`, `security`).
-   * On-chain rating calculation and review counters.
+### 1. 🌟 Star-Rated On-Chain Feedback
+* Users select a category (`General`, `Smart Contracts`, `UI/UX`, `DAO Governance`), choose an interactive **Star Rating (1 to 5 Stars ⭐)**, and write their review.
+* Stored permanently in Soroban persistent contract storage with TTL auto-extension.
 
-2. **Community Tipping & Micro-Rewards**
-   * Direct smart contract tipping mechanism sending XLM rewards to reviewers with emitted `tip_sent` events.
+### 2. 🔍 Universal Search & "My Submissions"
+* **1-Click "My Submissions":** Instantly filters the live feed to display only reviews submitted by the connected wallet address.
+* **Search by Stellar Address:** Paste any public key (`GDON...`) to see all reviews by that creator.
+* **Search by Post Number or Keyword:** Type `#1`, `speed`, `Soroban`, or `UI` to query on-chain records in real-time.
 
-3. **Native XLM Fast Payments**
-   * Direct transfer module with recipient address validation, memo attachments, and Stellar.Expert explorer links.
+### 3. 💖 Variable XLM Tipping
+* Tip feedback creators on-chain directly with variable amounts: **`5`**, **`10`**, **`25`**, **`50` XLM** (or custom amounts).
+* Automatically triggers on-chain balance transfers and celebratory confetti animations.
 
-4. **Multi-Wallet Authentication**
-   * Seamless Freighter Wallet browser extension integration with instant Testnet Keypair fallback.
+### 4. 🧵 Live Event Stream & Reddit-Style Compact Threads
+* Real-time polling via Soroban RPC `getEvents` streaming contract activity feed (`fb_new`, `fb_tip`).
+* Features **Reddit-style compact discussion threads** allowing community members to comment and debate topics under any event.
 
-5. **Real-Time On-Chain Event Stream**
-   * Real-time polling via Soroban RPC `getEvents` streaming contract activity feed with ledger numbers and timestamps.
-
----
-
-## 🛠️ Tech Stack
-
-* **Smart Contract:** Rust, `soroban-sdk = "22.0.11"`, `wasm32-unknown-unknown`
-* **Frontend:** React 18, Vite 6, Cosmic Glassmorphism Vanilla CSS
-* **SDK & Protocol:** `@stellar/stellar-sdk = "16.2.0"`, `@stellar/freighter-api = "3.1.0"`
-* **Testing:** Rust unit test suite (`soroban-sdk::testutils`), 4 passing tests
-* **CI/CD:** Automated GitHub Actions pipeline (`.github/workflows/ci.yml`)
+### 5. ⚡ Native XLM Transfer & 1-Click Faucet
+* Built-in instant **Friendbot Faucet (+10,000 Testnet XLM)**.
+* Fast payments module with recipient public key validation, on-chain memo attachments, and explorer links.
 
 ---
 
-## 🚀 Quickstart Guide
+## 🛠️ Smart Contract Specification (`FeedbackVault`)
 
-### 1. Prerequisites
-* **Node.js** (v18 or higher)
-* **Rust** (with `wasm32-unknown-unknown` target)
-* **Freighter Wallet Extension** ([freighter.app](https://www.freighter.app/))
-
----
-
-### 2. Run Locally
-
-```bash
-# Navigate to frontend directory
-cd frontend
-
-# Install dependencies
-npm install --legacy-peer-deps
-
-# Start development server
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+| Function | Signature | Description |
+| :--- | :--- | :--- |
+| `send_feedback` | `(env, sender: Address, message: String, category: Symbol) -> u64` | Submits on-chain feedback with star rating, updates instance counters, and emits `fb_new` event. |
+| `fetch_feedback` | `(env, id: u64) -> Feedback` | Read-only query retrieving feedback struct `(id, sender, message, category, timestamp, tips)`. |
+| `tip_feedback` | `(env, tipper: Address, id: u64, amount: i128)` | Rewards reviewer, records tip amount, and emits `fb_tip` event. |
+| `get_vault_stats` | `(env) -> VaultStats` | Returns aggregated protocol metrics `(total_feedbacks, total_tips)`. |
+| `get_feedback_count` | `(env) -> u64` | Returns total registered on-chain feedback count. |
 
 ---
 
-### 3. Run Smart Contract Tests
+## 🧪 Smart Contract Unit Test Coverage
+
+LumenPulse includes comprehensive Rust test coverage verifying all state changes, panic bounds, and event emissions.
 
 ```bash
 cd contracts/feedback_vault
 cargo test
 ```
 
-**Expected Test Output:**
-```
+### ✅ Test Suite Results:
+```text
 running 4 tests
 test test::test_nonexistent_feedback_panic - should panic ... ok
 test test::test_send_and_fetch_feedback ... ok
@@ -139,10 +142,38 @@ test result: ok. 4 passed; 0 failed; finished in 0.04s
 
 ---
 
-### 4. Build Contract WASM
+## 💻 Tech Stack
 
+* **Smart Contracts:** Rust, `soroban-sdk = "22.0.11"`, `wasm32-unknown-unknown`
+* **Frontend:** React 19, Vite 6, Cosmic Glassmorphism Vanilla CSS, Lucide Icons, Canvas Confetti
+* **Stellar Integration:** `@stellar/stellar-sdk = "16.2.0"`, `@stellar/freighter-api = "3.1.0"`
+* **Deployment & CI/CD:** Netlify (`netlify.toml`), GitHub Actions (`.github/workflows/ci.yml`)
+
+---
+
+## 🚀 Local Development Setup
+
+### 1. Prerequisites
+* **Node.js** (v18 or higher)
+* **Rust & Cargo** with `wasm32-unknown-unknown` target
+* **Freighter Wallet Extension** ([freighter.app](https://www.freighter.app/))
+
+### 2. Clone & Install Frontend
 ```bash
-cd contracts/feedback_vault
+git clone https://github.com/bishalnium/Lumenpulse.git
+cd Lumenpulse/frontend
+npm install --legacy-peer-deps
+npm run dev
+```
+Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+
+### 3. Build & Test Smart Contracts
+```bash
+cd ../contracts/feedback_vault
+# Run unit tests
+cargo test
+
+# Compile optimized WASM
 cargo build --target wasm32-unknown-unknown --release
 ```
 
@@ -150,14 +181,18 @@ cargo build --target wasm32-unknown-unknown --release
 
 ## 📖 How to Use LumenPulse
 
-1. **Connect Wallet:** Open [http://localhost:5173](http://localhost:5173), click **"Connect Wallet"**, and select **Freighter** or **Instant Demo Key**.
-2. **Fund Wallet:** Click **"+ Faucet (+10k XLM)"** to receive free Testnet XLM.
-3. **Send XLM:** Use the **Send XLM** tab to transfer funds with an on-chain memo.
-4. **Submit Feedback:** Go to **Feedback DAO** ➔ Click **"Submit On-Chain Feedback"** ➔ Select a category (e.g. `UI/UX`), star rating (1–5), and write your review.
-5. **Tip Reviewers:** Click **"Tip XLM"** on any community feedback card to reward constructive feedback.
-6. **Watch Real-Time Events:** Switch to the **Live Stream** tab to observe on-chain contract events streaming live from Soroban RPC.
+1. **Connect Wallet:** Open the app and connect with **Freighter Wallet** or click **Demo Keypair**.
+2. **Fund Wallet:** Click **"Faucet (+10k XLM)"** in the top bar to fund your account instantly.
+3. **Submit Feedback:**
+   * Go to **"Feedback DAO"**.
+   * Pick a category, select your **Star Rating (⭐⭐⭐⭐⭐)**, type your review message, and click **"Submit to Contract"**.
+4. **Search & Filter Reviews:**
+   * Click **"My Submissions"** to filter reviews from your wallet.
+   * Or search by any Stellar address (`GDON...`), keyword, or post number.
+5. **Tip Reviewers:** Click **"Tip"** on any card to send an on-chain tipping reward.
+6. **Live Stream & Discussions:** Switch to **"Live Stream"** to view real-time smart contract events and participate in Reddit-style topic discussions!
 
 ---
 
 ## 📄 License
-MIT License. Built for the Stellar Community.
+MIT License. Built for the Stellar & Soroban Ecosystem.
