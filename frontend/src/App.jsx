@@ -43,7 +43,7 @@ function MainApp() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <Sparkles size={18} color="var(--accent-cyan)" />
           <span style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
-            Built for <strong>Stellar Developer Challenge (Levels 1, 2 & 3)</strong>
+            Powered by <strong>Stellar & Soroban Smart Contracts</strong>
           </span>
         </div>
 

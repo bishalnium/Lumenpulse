@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   isConnected as checkFreighterConnected,
-  getPublicKey as getFreighterPublicKey,
   signTransaction as signFreighterTx,
   requestAccess as requestFreighterAccess,
+  getAddress as getFreighterAddress,
 } from '@stellar/freighter-api';
-import { fetchAccountBalances, requestFriendbotFunding } from '../services/stellar';
+import { Keypair } from '@stellar/stellar-sdk';
+import { fetchAccountBalances, requestFriendbotFunding, NETWORK_PASSPHRASE } from '../services/stellar';
 
 const WalletContext = createContext(null);
 
@@ -44,19 +45,53 @@ export function WalletProvider({ children }) {
     setIsLoading(true);
     setError(null);
     try {
-      const hasFreighter = await checkFreighterConnected();
-      if (!hasFreighter) {
-        throw new Error('Freighter wallet extension not found. Please install it from freighter.app');
+      let connected = false;
+      if (typeof checkFreighterConnected === 'function') {
+        const connRes = await checkFreighterConnected();
+        connected = typeof connRes === 'object' && connRes !== null ? !!connRes.isConnected : !!connRes;
+      } else if (typeof window !== 'undefined' && (window.freighter || window.freighterApi)) {
+        connected = true;
       }
 
-      const accessObj = await requestFreighterAccess();
-      if (accessObj.error) {
-        throw new Error(accessObj.error);
+      if (!connected) {
+        throw new Error('Freighter extension not detected. Please install Freighter from freighter.app.');
       }
 
-      const pubKey = await getFreighterPublicKey();
+      let pubKey = null;
+      if (typeof requestFreighterAccess === 'function') {
+        try {
+          const accessObj = await requestFreighterAccess();
+          if (accessObj && accessObj.address) pubKey = accessObj.address;
+          else if (typeof accessObj === 'string' && accessObj.startsWith('G')) pubKey = accessObj;
+          else if (accessObj && accessObj.error) throw new Error(accessObj.error);
+        } catch (e) {
+          console.warn('requestFreighterAccess failed:', e);
+        }
+      }
+
+      if (!pubKey && typeof getFreighterAddress === 'function') {
+        try {
+          const addrRes = await getFreighterAddress();
+          if (addrRes && addrRes.address) pubKey = addrRes.address;
+          else if (typeof addrRes === 'string' && addrRes.startsWith('G')) pubKey = addrRes;
+          else if (addrRes && addrRes.error) throw new Error(addrRes.error);
+        } catch (e) {
+          console.warn('getFreighterAddress failed:', e);
+        }
+      }
+
+      if (!pubKey && typeof window !== 'undefined' && window.freighter) {
+        if (typeof window.freighter.requestAccess === 'function') {
+          const res = await window.freighter.requestAccess();
+          if (res && res.address) pubKey = res.address;
+          else if (typeof res === 'string') pubKey = res;
+        } else if (typeof window.freighter.getPublicKey === 'function') {
+          pubKey = await window.freighter.getPublicKey();
+        }
+      }
+
       if (!pubKey) {
-        throw new Error('Failed to retrieve public key from Freighter');
+        throw new Error('No account selected or permission was denied in Freighter.');
       }
 
       setPublicKey(pubKey);
@@ -77,16 +112,30 @@ export function WalletProvider({ children }) {
   };
 
   // Connect via Simulated / Demo Account (For instant testnet testing)
-  const connectDemoAccount = async (customKey = null) => {
+  const connectDemoAccount = async () => {
     setIsLoading(true);
     try {
-      // Default funded testnet demo account
-      const demoKey = customKey || 'GA22D77WJ3P6LYE27S5W6F3E6W8B9K2M4Z7Y3N5H8L3V8B9K2MCBWRFN';
+      let secret = localStorage.getItem('lumenpulse_demo_secret');
+      let keypair;
+      if (secret) {
+        keypair = Keypair.fromSecret(secret);
+      } else {
+        keypair = Keypair.random();
+        localStorage.setItem('lumenpulse_demo_secret', keypair.secret());
+      }
+      const demoKey = keypair.publicKey();
       setPublicKey(demoKey);
       setWalletType('Demo / Manual Key');
       localStorage.setItem('lumenpulse_wallet', demoKey);
       localStorage.setItem('lumenpulse_wallet_type', 'Demo / Manual Key');
       setIsWalletModalOpen(false);
+
+      const balRes = await fetchAccountBalances(demoKey);
+      if (balRes.notFunded) {
+        setIsFunding(true);
+        await requestFriendbotFunding(demoKey);
+        setIsFunding(false);
+      }
       await refreshBalances(demoKey);
       return { success: true, publicKey: demoKey };
     } finally {
@@ -97,9 +146,11 @@ export function WalletProvider({ children }) {
   // Disconnect
   const disconnectWallet = () => {
     setPublicKey(null);
+    setWalletType(null);
     setBalances([{ asset: 'XLM', balance: '0.0000', isNative: true }]);
     localStorage.removeItem('lumenpulse_wallet');
     localStorage.removeItem('lumenpulse_wallet_type');
+    localStorage.removeItem('lumenpulse_demo_secret');
   };
 
   // 1-Click Friendbot Faucet
@@ -126,10 +177,35 @@ export function WalletProvider({ children }) {
   // Sign Transaction delegate
   const signTx = async (xdrString) => {
     if (walletType === 'Freighter') {
-      const signed = await signFreighterTx(xdrString, {
-        networkPassphrase: 'Test SDF Network ; September 2015',
-      });
-      return signed;
+      let signedXdr = null;
+      if (typeof signFreighterTx === 'function') {
+        const signRes = await signFreighterTx(xdrString, {
+          networkPassphrase: NETWORK_PASSPHRASE,
+        });
+        if (signRes && signRes.signedTxXdr) signedXdr = signRes.signedTxXdr;
+        else if (typeof signRes === 'string') signedXdr = signRes;
+        else if (signRes && signRes.error) throw new Error(signRes.error);
+      }
+
+      if (!signedXdr && typeof window !== 'undefined' && window.freighter && typeof window.freighter.signTransaction === 'function') {
+        const signRes = await window.freighter.signTransaction(xdrString, {
+          networkPassphrase: NETWORK_PASSPHRASE,
+        });
+        if (signRes && signRes.signedTxXdr) signedXdr = signRes.signedTxXdr;
+        else if (typeof signRes === 'string') signedXdr = signRes;
+      }
+
+      if (!signedXdr) throw new Error('Transaction signing was canceled or rejected by user in Freighter');
+      return signedXdr;
+    } else if (walletType === 'Demo / Manual Key') {
+      const secret = localStorage.getItem('lumenpulse_demo_secret');
+      if (secret) {
+        const keypair = Keypair.fromSecret(secret);
+        const { TransactionBuilder } = await import('@stellar/stellar-sdk');
+        const tx = TransactionBuilder.fromXDR(xdrString, NETWORK_PASSPHRASE);
+        tx.sign(keypair);
+        return tx.toXDR();
+      }
     }
     throw new Error(`Signing not supported for wallet type: ${walletType}`);
   };

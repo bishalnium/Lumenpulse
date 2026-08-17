@@ -230,7 +230,7 @@ export default function TransferSection({ onTriggerTxModal }) {
               type="text"
               maxLength={28}
               className="glass-input"
-              placeholder="e.g. Level 1 Verification"
+              placeholder="e.g. LumenPulse Protocol Tip"
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
               disabled={status === 'submitting'}

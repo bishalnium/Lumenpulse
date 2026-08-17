@@ -290,6 +290,30 @@ body::after {
   box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
 }
 
+.btn-disconnect {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 23, 68, 0.35);
+  background: rgba(255, 23, 68, 0.12);
+  color: var(--accent-rose);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-disconnect:hover {
+  background: rgba(255, 23, 68, 0.22);
+  border-color: rgba(255, 23, 68, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(255, 23, 68, 0.25);
+}
+
 /* Badges & Tags */
 .status-pill {
   display: inline-flex;

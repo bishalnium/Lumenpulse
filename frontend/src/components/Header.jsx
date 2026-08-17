@@ -11,6 +11,8 @@ import {
   Send,
   MessageSquare,
   Activity,
+  Copy,
+  Check,
 } from 'lucide-react';
 
 export default function Header({ activeTab, setActiveTab }) {
@@ -45,7 +47,7 @@ export default function Header({ activeTab, setActiveTab }) {
       {/* Brand Logo */}
       <div className="brand-logo">
         <div className="logo-icon">
-          <Sparkles size={24} color="#ffffff" />
+          <Sparkles size={22} color="#ffffff" />
         </div>
         <div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -90,55 +92,69 @@ export default function Header({ activeTab, setActiveTab }) {
         </button>
       </nav>
 
-      {/* Header Right Actions */}
+      {/* Header Actions / Connected Wallet */}
       <div className="header-actions">
         {isConnected ? (
           <>
-            {/* 1-Click Friendbot Faucet */}
+            {/* 1-Click Faucet Button */}
             <button
-              className="btn-secondary btn-faucet"
+              className="btn-primary btn-faucet"
+              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem' }}
               onClick={fundWithFriendbot}
               disabled={isFunding}
               title="Request 10,000 Testnet XLM"
             >
-              <Sparkles size={16} className={isFunding ? 'animate-spin' : ''} />
+              <Sparkles size={15} className={isFunding ? 'spin' : ''} />
               <span>{isFunding ? 'Funding...' : 'Faucet (+10k XLM)'}</span>
             </button>
 
             {/* Refresh Balance */}
             <button
               className="btn-secondary"
-              style={{ padding: '0.75rem' }}
+              style={{ padding: '0.65rem', borderRadius: '12px' }}
               onClick={() => refreshBalances()}
               disabled={isLoading}
               title="Refresh Balance"
             >
-              <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
+              <RefreshCw size={15} className={isLoading ? 'spin' : ''} />
             </button>
 
-            {/* Wallet Dropdown */}
+            {/* Wallet Dropdown with Account */}
             <div style={{ position: 'relative' }}>
               <button
                 className="btn-secondary"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                style={{ borderColor: 'rgba(0, 229, 255, 0.3)' }}
+                style={{
+                  borderColor: 'rgba(0, 229, 255, 0.35)',
+                  padding: '0.6rem 1rem',
+                  gap: '0.6rem',
+                }}
               >
-                <div className="status-dot" style={{ color: 'var(--accent-emerald)' }}></div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+                <div
+                  style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: 'var(--accent-emerald)',
+                    boxShadow: '0 0 8px var(--accent-emerald)',
+                  }}
+                ></div>
+                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.86rem' }}>
                   {truncatedAddress}
                 </span>
                 <span
                   style={{
                     background: 'rgba(0, 229, 255, 0.15)',
                     color: 'var(--accent-cyan)',
-                    padding: '0.15rem 0.45rem',
+                    padding: '0.15rem 0.5rem',
                     borderRadius: '8px',
-                    fontSize: '0.78rem',
+                    fontSize: '0.76rem',
+                    fontWeight: 700,
                   }}
                 >
                   {xlmBalance} XLM
                 </span>
-                <ChevronDown size={14} />
+                <ChevronDown size={14} style={{ opacity: 0.7 }} />
               </button>
 
               {isDropdownOpen && (
@@ -148,33 +164,39 @@ export default function Header({ activeTab, setActiveTab }) {
                     position: 'absolute',
                     top: 'calc(100% + 8px)',
                     right: 0,
-                    width: '260px',
-                    padding: '0.75rem',
+                    width: '270px',
+                    padding: '0.85rem',
                     zIndex: 100,
-                    boxShadow: '0 15px 35px rgba(0, 0, 0, 0.7)',
+                    boxShadow: '0 20px 45px rgba(0, 0, 0, 0.8)',
+                    border: '1px solid rgba(0, 229, 255, 0.25)',
+                    background: '#070a14',
                   }}
                 >
-                  <div style={{ padding: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Connected Account</div>
+                  <div style={{ padding: '0.4rem 0.5rem 0.75rem', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Connected Account
+                    </div>
                     <div
                       style={{
                         fontFamily: 'var(--font-mono)',
-                        fontSize: '0.8rem',
+                        fontSize: '0.78rem',
                         wordBreak: 'break-all',
                         marginTop: '0.25rem',
+                        color: 'var(--text-primary)',
                       }}
                     >
                       {publicKey}
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginTop: '0.5rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.65rem' }}>
                     <button
                       className="btn-secondary"
-                      style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent' }}
+                      style={{ justifyContent: 'flex-start', border: 'none', background: 'rgba(255, 255, 255, 0.04)', padding: '0.55rem 0.75rem', fontSize: '0.82rem' }}
                       onClick={copyAddress}
                     >
-                      <span>{copied ? '✓ Copied Address' : 'Copy Address'}</span>
+                      {copied ? <Check size={14} color="var(--accent-emerald)" /> : <Copy size={14} />}
+                      <span>{copied ? 'Copied Address!' : 'Copy Address'}</span>
                     </button>
                     <a
                       href={`https://stellar.expert/explorer/testnet/account/${publicKey}`}
@@ -184,37 +206,40 @@ export default function Header({ activeTab, setActiveTab }) {
                       style={{
                         justifyContent: 'flex-start',
                         border: 'none',
-                        background: 'transparent',
+                        background: 'rgba(255, 255, 255, 0.04)',
                         textDecoration: 'none',
+                        padding: '0.55rem 0.75rem',
+                        fontSize: '0.82rem',
                       }}
                     >
                       <span>View on Explorer</span>
                       <ExternalLink size={14} style={{ marginLeft: 'auto' }} />
                     </a>
-                    <button
-                      className="btn-secondary"
-                      style={{
-                        justifyContent: 'flex-start',
-                        border: 'none',
-                        background: 'rgba(255, 23, 68, 0.12)',
-                        color: 'var(--accent-rose)',
-                      }}
-                      onClick={() => {
-                        disconnectWallet();
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      <LogOut size={14} />
-                      <span>Disconnect</span>
-                    </button>
                   </div>
                 </div>
               )}
             </div>
+
+            {/* Direct Disconnect Button on Main Header */}
+            <button
+              className="btn-disconnect"
+              onClick={() => {
+                disconnectWallet();
+                setIsDropdownOpen(false);
+              }}
+              title="Disconnect Wallet"
+            >
+              <LogOut size={14} />
+              <span>Disconnect</span>
+            </button>
           </>
         ) : (
-          <button className="btn-primary" onClick={() => setIsWalletModalOpen(true)}>
-            <Wallet size={18} />
+          <button
+            className="btn-primary"
+            style={{ padding: '0.7rem 1.4rem', fontSize: '0.92rem' }}
+            onClick={() => setIsWalletModalOpen(true)}
+          >
+            <Wallet size={17} />
             <span>Connect Wallet</span>
           </button>
         )}

@@ -11,6 +11,10 @@ import {
   nativeToScVal,
   xdr,
   Address,
+  StrKey,
+  Memo,
+  Account,
+  Contract,
 } from '@stellar/stellar-sdk';
 
 export const HORIZON_URL = 'https://horizon-testnet.stellar.org';
@@ -45,28 +49,35 @@ export async function fetchAccountBalances(publicKey) {
         isNative: false,
       };
     });
-    return { success: true, balances };
+
+    return {
+      success: true,
+      balances,
+      raw: account,
+    };
   } catch (error) {
     if (error.response && error.response.status === 404) {
       return {
         success: true,
         balances: [{ asset: 'XLM', balance: '0.0000', isNative: true }],
-        isUnfunded: true,
+        notFunded: true,
       };
     }
-    return { success: false, error: error.message || 'Failed to fetch balance' };
+    return { success: false, error: error.message || 'Failed to fetch balances' };
   }
 }
 
 /**
- * Request testnet funding from Friendbot (10,000 XLM)
+ * 1-Click Friendbot Testnet Funding (+10,000 XLM)
  */
 export async function requestFriendbotFunding(publicKey) {
   try {
-    const response = await fetch(`https://friendbot.stellar.org?addr=${publicKey}`);
+    const response = await fetch(
+      `https://friendbot.stellar.org?addr=${encodeURIComponent(publicKey)}`
+    );
     const data = await response.json();
-    if (response.ok) {
-      return { success: true, txHash: data.hash };
+    if (response.ok || data.successful || data.status === 200) {
+      return { success: true, txHash: data.hash || data.id };
     }
     throw new Error(data.detail || 'Friendbot funding request failed');
   } catch (error) {
@@ -75,7 +86,7 @@ export async function requestFriendbotFunding(publicKey) {
 }
 
 /**
- * Send an XLM payment on Stellar Testnet (Level 1 Requirement)
+ * Send an XLM payment on Stellar Testnet
  */
 export async function sendXlmPayment({
   senderPublicKey,
@@ -89,8 +100,10 @@ export async function sendXlmPayment({
     const senderAccount = await horizonServer.loadAccount(senderPublicKey);
 
     // 2. Validate destination
-    if (!StrKey.isValidEd25519PublicKey(destinationPublicKey)) {
-      throw new Error('Invalid Stellar recipient address format');
+    if (!StrKey || !StrKey.isValidEd25519PublicKey(destinationPublicKey)) {
+      if (!destinationPublicKey || !destinationPublicKey.startsWith('G') || destinationPublicKey.length !== 56) {
+        throw new Error('Invalid Stellar recipient address format. Address must start with G and be 56 characters.');
+      }
     }
 
     // 3. Build payment transaction
@@ -106,7 +119,7 @@ export async function sendXlmPayment({
     ).setTimeout(TimeoutInfinite);
 
     if (memoText.trim()) {
-      builder = builder.addMemo(TransactionBuilder.Memo.text(memoText.trim()));
+      builder = builder.addMemo(Memo.text(memoText.trim()));
     }
 
     const transaction = builder.build();
@@ -120,7 +133,11 @@ export async function sendXlmPayment({
     }
 
     // 5. Submit to Horizon
-    const signedTx = TransactionBuilder.fromXDR(signedXdr, NETWORK_PASSPHRASE);
+    let finalXdr = signedXdr;
+    if (typeof signedXdr === 'object' && signedXdr !== null && signedXdr.signedTxXdr) {
+      finalXdr = signedXdr.signedTxXdr;
+    }
+    const signedTx = TransactionBuilder.fromXDR(finalXdr, NETWORK_PASSPHRASE);
     const result = await horizonServer.submitTransaction(signedTx);
 
     return {
@@ -141,7 +158,7 @@ export async function sendXlmPayment({
 }
 
 /**
- * Helper to invoke Soroban Contract Functions (Level 2 & 3 Requirement)
+ * Helper to invoke Soroban Contract Functions
  */
 export async function invokeContract({
   contractId,
@@ -152,7 +169,7 @@ export async function invokeContract({
 }) {
   try {
     const account = await horizonServer.loadAccount(senderPublicKey);
-    const contract = new SorobanRpc.Contract(contractId);
+    const contract = new Contract(contractId);
 
     // Build the invocation call
     const callOp = contract.call(functionName, ...args);
@@ -182,7 +199,11 @@ export async function invokeContract({
     }
 
     // Submit transaction
-    const signedTx = TransactionBuilder.fromXDR(signedXdr, NETWORK_PASSPHRASE);
+    let finalContractXdr = signedXdr;
+    if (typeof signedXdr === 'object' && signedXdr !== null && signedXdr.signedTxXdr) {
+      finalContractXdr = signedXdr.signedTxXdr;
+    }
+    const signedTx = TransactionBuilder.fromXDR(finalContractXdr, NETWORK_PASSPHRASE);
     const sendResponse = await rpcServer.sendTransaction(signedTx);
 
     if (sendResponse.status === 'ERROR') {
@@ -225,8 +246,8 @@ export async function readContractData(contractId, functionName, args = []) {
   try {
     // Generate a temporary burner keypair to simulate read-only calls
     const tempKey = Keypair.random();
-    const tempAccount = new Horizon.Account(tempKey.publicKey(), '1');
-    const contract = new SorobanRpc.Contract(contractId);
+    const tempAccount = new Account(tempKey.publicKey(), '1');
+    const contract = new Contract(contractId);
 
     const tx = new TransactionBuilder(tempAccount, {
       fee: '100',
@@ -247,7 +268,7 @@ export async function readContractData(contractId, functionName, args = []) {
 }
 
 /**
- * Poll live contract events from Soroban RPC (Level 2/3 Requirement)
+ * Poll live contract events from Soroban RPC
  */
 export async function pollContractEvents(contractId) {
   try {
